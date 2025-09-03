@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Today's Wordle: FETCH</title>
+
+  <!-- Open Graph for previews -->
+  <meta property="og:title" content="Wordle #1262 - 2025-09-03" id="og-title">
+  <meta property="og:description" content="Today's Wordle answer is: FETCH" id="og-desc">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="">
+  <meta property="og:image" content="">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Wordle #1262 - 2025-09-03" id="twitter-title">
+  <meta name="twitter:description" content="Today's Wordle answer is: FETCH" id="twitter-desc">
+</head>
+<body>
+  <h1>Today's Wordle</h1>
+  <p id="word">FETCH</p>
+
+  <script>
+    // Optional: Load fresh data if needed for real-time updates
+    async function loadWordle() {
+      try {
+        const res = await fetch('today.json');
+        const data = await res.json();
+        document.getElementById('word').innerText = data.answer;
+        document.title = `Today's Wordle: ${data.answer}`;
+      } catch (e) {
+        console.log('Using static content');
+      }
+    }
+
+    loadWordle();
+  </script>
+</body>
+</html>

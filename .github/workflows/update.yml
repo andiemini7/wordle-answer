@@ -1,0 +1,31 @@
+name: Update Wordle Answer
+
+on:
+  schedule:
+    - cron: "0 7 * * *"   # Run daily at 07:00 UTC (~09AM CET)
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install deps
+        run: npm install node-fetch
+
+      - name: Run script
+        run: node fetch-wordle.js
+
+      - name: Commit and push
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add today.json
+          git commit -m "Update Wordle answer"
+          git push
