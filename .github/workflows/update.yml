@@ -5,9 +5,17 @@ on:
     - cron: "0 7 * * *"   # Run daily at 07:00 UTC (~09AM CET)
   workflow_dispatch:
 
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
 jobs:
-  build:
+  update-and-deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
 
@@ -22,10 +30,22 @@ jobs:
       - name: Run script
         run: node fetch-wordle.js
 
-      - name: Commit and push
+      - name: Commit and push changes
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add today.json
-          git commit -m "Update Wordle answer"
+          git add today.json index.html
+          git commit -m "Update Wordle answer" || exit 0
           git push
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+
+      - name: Upload to GitHub Pages
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
